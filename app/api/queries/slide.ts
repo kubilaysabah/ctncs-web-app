@@ -1,8 +1,8 @@
-import * as Apollo from "@apollo/client";
+import { gql } from "@apollo/client";
 
-export const GET_SLIDES = Apollo.gql`
-  query GetSlides {
-    slides {
+export const GET_SLIDES = gql`
+  query GetSlides ($first: Int = 100, $locales: [Locale!] = [tr_TR]) {
+    slides(first: $first, locales: $locales) {
         id
         title
         description

@@ -1,5 +1,5 @@
 import { Link } from 'react-router'
-import * as Apollo from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import { GET_SLIDES } from '~/api/queries/slide'
@@ -12,7 +12,12 @@ const settings = {
 }
 
 export default function Slider() {
-    const { data, error, loading } = Apollo.useQuery<{ slides: Slide[] }>(GET_SLIDES);
+    const { data, error, loading } = useQuery<{ slides: Slide[] }>(GET_SLIDES, {
+        variables: {
+            first: 100,
+            locales: ['tr_TR']
+        }
+    });
 
     return (
         <Swiper {...settings}>
@@ -29,8 +34,8 @@ export default function Slider() {
                         ) : null}
                     </article>
                     <picture className="h-screen block relative">
-                        <source media="(min-width: 1024px)" srcSet={slide.desktopBanner.url} />
-                        <img className="block max-w-full w-full h-full absolute inset-0 mx-auto object-cover" src={slide.mobileBanner.url} alt={slide.title} />
+                        {slide?.desktopBanner?.url && <source media="(min-width: 1024px)" srcSet={slide.desktopBanner.url} />}
+                        {slide?.mobileBanner?.url && <img className="block max-w-full w-full h-full absolute inset-0 mx-auto object-cover" src={slide?.mobileBanner?.url} alt={slide.title} />}
                     </picture>
                 </SwiperSlide>
             ))}
