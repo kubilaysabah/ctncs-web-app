@@ -1,5 +1,9 @@
+import Menu from '~/components/menu';
+
 export default function Header() {
     return (
-        <header></header>
+        <header>
+            <Menu />
+        </header>
     )
 }
